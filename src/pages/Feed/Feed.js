@@ -57,7 +57,7 @@ class Feed extends Component {
     const graphqlQuery = {
       query: `
       {
-        posts {
+        posts(page: ${page}) {
           posts {
             _id
             title
@@ -213,6 +213,9 @@ class Feed extends Component {
             updatedPosts[postIndex] = post
           } else if (prevState.posts.length < 2) {
             updatedPosts = prevState.posts.concat(post)
+          } else {
+            updatedPosts.pop()
+            updatedPosts.unshift(post)
           }
           return {
             // posts: updatedPosts,
