@@ -289,22 +289,25 @@ class Feed extends Component {
         }
         this.setState((prevState) => {
           let updatedPosts = [...prevState.posts]
+          let updatedTotalPost = prevState.totalPosts
           if (prevState.editPost) {
             const postIndex = prevState.posts.findIndex(
               (p) => p._id === prevState.editPost._id,
             )
             updatedPosts[postIndex] = post
-          } else if (prevState.posts.length < 2) {
-            updatedPosts = prevState.posts.concat(post)
           } else {
-            updatedPosts.pop()
+            updatedTotalPost += 1
+            if (prevState.posts.length >= 2) {
+              updatedPosts.pop()
+            }
             updatedPosts.unshift(post)
           }
           return {
-            // posts: updatedPosts,
+            posts: updatedPosts,
             isEditing: false,
             editPost: null,
             editLoading: false,
+            totalPosts: updatedTotalPost,
           }
         })
       })
